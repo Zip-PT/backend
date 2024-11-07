@@ -13,6 +13,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(audio.router, prefix="/api")
+app.include_router(location.router, prefix="/api")
+
+
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "ZipPT API is running"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="info")
