@@ -6,8 +6,7 @@ load_dotenv()
 
 class Settings:
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
-    NAVER_CLIENT_ID: str = os.getenv("NAVER_CLIENT_ID")
-    NAVER_CLIENT_SECRET: str = os.getenv("NAVER_CLIENT_SECRET")
+    GOOGLE_MAPS_API_KEY: str = os.getenv("GOOGLE_MAPS_API_KEY")
 
     CORS_ORIGINS = [
         "http://127.0.0.1:5173",
