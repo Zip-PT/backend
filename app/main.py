@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api.routes import audio, location
+from app.api.routes import audio, location, weather
 
 app = FastAPI()
 
@@ -15,6 +15,7 @@ app.add_middleware(
 
 app.include_router(audio.router, prefix="/api")
 app.include_router(location.router, prefix="/api")
+app.include_router(weather.router, prefix="/api")
 
 
 @app.get("/")

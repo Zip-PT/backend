@@ -139,6 +139,33 @@ class LocationService:
             "range": f'{range}m'
         }
 
+    async def get_city_name(self, coords) -> str:
+        """좌표로 도시 이름 조회"""
+        url = f"{self.base_url}/geocode/json"
+        params = {
+            'latlng': f"{coords.latitude},{coords.longitude}",
+            'language': self.language,
+            'key': self.api_key
+        }
+
+        response = await self._make_request(url, params)
+
+        if not response.get('results'):
+            raise HTTPException(
+                status_code=404,
+                detail="해당 좌표의 도시 정보를 찾을 수 없습니다."
+            )
+
+        # 주소 컴포넌트에서 도시 이름 찾기
+        for component in response['results'][0]['address_components']:
+            if 'locality' in component['types'] or 'administrative_area_level_1' in component['types']:
+                return component['long_name']
+
+        raise HTTPException(
+            status_code=404,
+            detail="도시 정보를 찾을 수 없습니다."
+        )
+
     async def _make_request(self, url: str, params: Dict[str, str]) -> Dict[str, Any]:
         """API 요청 공통 처리"""
         try:
